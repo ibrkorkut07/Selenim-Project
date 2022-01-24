@@ -1,4 +1,4 @@
-package com.myfirstproject;
+package com.week01;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class Day04_CssSelector {
 

@@ -1,4 +1,4 @@
-package com.myfirstproject;
+package com.week01;
 import org.junit.*;
 public class Day02_FirstJUnitClass {
     /*
