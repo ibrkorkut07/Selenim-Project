@@ -1,0 +1,127 @@
+package com.myfirstproject;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import java.time.Duration;
+import java.util.List;
+
+public class Day05_Dropdown {
+    WebDriver driver;
+    // 1. Locate the webelement
+
+    @Before
+    public void setUp(){
+
+        System.setProperty("webdriver.chrome.driver","./drivers/chromedriver"); // MAC // For windows add .exe
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.get("https://the-internet.herokuapp.com/dropdown");
+    }
+
+    @Test
+    public void selectByIndex() throws InterruptedException {
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        // Create an object from Select Class with webelement
+        Select select = new Select(dropDown);
+        // Select the first option with index
+        // ındexes are starting with 1
+
+        select.selectByIndex(1);
+        Thread.sleep(5000);
+
+        // Select the second option with index
+        select.selectByIndex(2);
+        Thread.sleep(5000);
+
+        // Select the first option with index
+        select.selectByIndex(1);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void selectByValue() throws InterruptedException {
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        Select select = new Select(dropDown);
+        select.selectByValue("1");   // Click Option 1
+
+        Thread.sleep(5000);
+        select.selectByValue("2"); // Click Option 2
+        Thread.sleep(5000);
+
+        select.selectByValue("1");   // Click Option 1
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void selectByVisibleText() throws InterruptedException {
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        Select select = new Select(dropDown);
+
+        select.selectByVisibleText("Option 1"); // Option 1
+        Thread.sleep(5000);
+
+        select.selectByVisibleText("Option 2"); // Option 2
+        Thread.sleep(5000);
+
+        select.selectByVisibleText("Option 1"); // Option 1
+        Thread.sleep(5000);
+
+        // Example of Amazon
+//        WebElement dropDownamazon = driver.findElement(By.id("searchDropdownBox"));
+//        Select selectAmazon = new Select(dropDownamazon);
+//        selectAmazon.selectByVisibleText("Books");
+    }
+
+    ///4.Create method printAllTest Print all dropdown value
+    @Test
+    public void printAllOptions(){
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        Select select = new Select(dropDown);
+        // To store all options in a list
+        List<WebElement> allOptions = select.getOptions();
+        for (WebElement eachElement:allOptions) {
+            System.out.println("eachElement = " + eachElement.getText());
+        }
+    }
+    ////5.Create method printFirstSelectedOptionTest Print first selected option
+    @Test
+    public void printFirstSelectedOptionTest(){
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        Select select = new Select(dropDown);
+
+        WebElement firstOption =select.getFirstSelectedOption();
+        String firstoptionText =firstOption.getText();
+        System.out.println("firstoptionText = " + firstoptionText);
+
+        // Please select an option
+        Assert.assertEquals("Please select an option",firstoptionText);
+    }
+
+    //6.Find the size of the dropdown,
+    // Print "Expected Is Not Equal Actual" if there are not 4 elements in the dropdown
+
+    @Test
+    public void sizeTest(){
+        WebElement dropDown = driver.findElement(By.id("dropdown"));
+        Select select = new Select(dropDown);
+        List<WebElement> allOptions = select.getOptions();
+        int sizeDropDown = allOptions.size();
+
+        Assert.assertEquals("Expected Is Not Equal Actual",4,sizeDropDown);
+    }
+
+    @After
+    public void tearDown(){
+        driver.quit();
+    }
+}
